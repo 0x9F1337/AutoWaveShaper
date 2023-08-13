@@ -26,7 +26,7 @@ namespace AutoWaveShaper
                 return;
             }
 
-            Console.WriteLine( "[+] Game detected (PID: {0} | HWND: {1:x2}", game.Id, game.MainWindowHandle );
+            Console.WriteLine( "[+] Game detected (PID: {0} | HWND: {1:x2})", game.Id, game.MainWindowHandle );
 
             IntPtr hwnd = game.MainWindowHandle;
 
@@ -64,11 +64,13 @@ namespace AutoWaveShaper
 
                 IntPtr hdc = g.GetHdc();
 
-                var colup = GetColorFromPixel( Native.GetPixel( hdc, scanX, pixelPosY1 ) );
-                var coldown = GetColorFromPixel( Native.GetPixel( hdc, scanX, pixelPosY2 ) );
+                //var colup = GetColorFromPixel( Native.GetPixel( hdc, scanX, pixelPosY1 ) );
+                //var coldown = GetColorFromPixel( Native.GetPixel( hdc, scanX, pixelPosY2 ) );
 
-                Console.WriteLine( "Upper: (R,G,B) ({0} {1} {2})", colup.R, colup.G, colup.B );
-                Console.WriteLine( "Lower: (R,G,B) ({0} {1} {2})", coldown.R, coldown.G, coldown.B );
+                //Console.WriteLine( "Upper: (R,G,B) ({0} {1} {2})", colup.R, colup.G, colup.B );
+                //Console.WriteLine( "Lower: (R,G,B) ({0} {1} {2})", coldown.R, coldown.G, coldown.B );
+
+                await Console.Out.WriteLineAsync( "[+] Autoplay bot running..." );
 
                 while (true)
                 {
@@ -85,7 +87,7 @@ namespace AutoWaveShaper
 
                             if (nextPixel == upperPixel) // Pixel above is also not 0,0,0 - so we probably have W shape.
                             {
-                                SendKeys.Send( "W" );
+                                SendKeys.SendWait( "W" );
 
                                 // Console.Write( "W" );
                                 // Console.Write( " " );
@@ -93,7 +95,7 @@ namespace AutoWaveShaper
                             }
                             else // Pixel above is black, so we have Q
                             {
-                                SendKeys.Send( "Q" );
+                                SendKeys.SendWait( "Q" );
                                 // Console.Write( "Q" );
                                 // Console.Write( " " );
                             }
@@ -104,13 +106,13 @@ namespace AutoWaveShaper
 
                             if (nextPixel == lowerPixel) // Pixel above is also not 0,0,0 - so we probably have S shape.
                             {
-                                SendKeys.Send( "S" );
+                                SendKeys.SendWait( "S" );
                                 // Console.Write( "S" );
                                 // Console.Write( " " );
                             }
                             else // Pixel above is black, so we have A
                             {
-                                SendKeys.Send( "A" );
+                                SendKeys.SendWait( "A" );
 
                                 // Console.Write( "A" );
                                 // Console.Write( " " );
@@ -118,11 +120,12 @@ namespace AutoWaveShaper
                         }
                     }
 
-                     await Task.Delay( 1 );
+                    await Task.Delay( 1 );
                 }
 
             }
         }
+
         private static Color GetColorFromPixel( uint pixel )
         {
             return Color.FromArgb( ( int )pixel );
