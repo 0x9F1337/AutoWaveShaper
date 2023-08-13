@@ -16,6 +16,9 @@ namespace AutoWaveShaper
         [DllImport( "user32.dll" )]
         public static extern bool GetWindowRect( IntPtr hWnd, out RECT lpRect );
 
+        [DllImport( "user32.dll" )]
+        public static extern IntPtr GetForegroundWindow();
+
         [StructLayout( LayoutKind.Sequential )]
         public struct RECT
         {

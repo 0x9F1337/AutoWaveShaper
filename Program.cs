@@ -76,6 +76,12 @@ namespace AutoWaveShaper
                 {
                     for (int rangeScan = 500; rangeScan > 180; rangeScan--)
                     {
+                        if (Native.GetForegroundWindow() != hwnd)
+                        {
+                            Console.WriteLine( "[!] Paused until WAVESHAPER window is focused again." );
+                            continue;
+                        }
+
                         var upperPixel = Native.GetPixel( hdc, rangeScan, pixelPosY1 );
                         var lowerPixel = Native.GetPixel( hdc, rangeScan, pixelPosY2 );
 
